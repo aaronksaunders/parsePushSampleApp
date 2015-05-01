@@ -1,4 +1,5 @@
-Welcome to your Appcelerator Titanium Mobile Project
+Sample Appcelerator IOS/Android Parse Push Mobile Project
+--
 
 ####Install Android Parse Module
 It can be downloaded from here, we only are using it for the Android Parse Push Connectivity
