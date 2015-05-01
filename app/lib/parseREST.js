@@ -49,7 +49,7 @@ var Q = require('q');
 
 var baseURL = 'https://api.parse.com/1/',
     appId,
-    apiKey;
+    apiRESTKey;
 
 // Be sure to use your REST API key and NOT your master as bad stuff can happen.
 
@@ -301,9 +301,16 @@ ParseClient.prototype.registerPush = function(_params, callback) {
 			_params.notificationOpen && _params.notificationOpen(e);
 		});
 
-		//Parse.subscribeChannel('tellmydocstest1');
+		if (_params.body.channels) {
+			Ti.API.debug('Channels ' + JSON.stringify(_params.body.channels));
+			_params.body.channels.map(function(_c) {
+				Ti.API.debug('subscribeChannel ' + _c);
+				Parse.subscribeChannel(_c);
+			});
+		}
 		callback && callback();
-		return;
+
+		return Q.when({});
 	}
 
 };
@@ -315,7 +322,7 @@ ParseClient.prototype.sendPush = function(_params, callback) {
 	var url = baseURL + 'push';
 
 	console.log("url: " + url);
-	console.log("_params: " + JSON.stringify(_params));
+	console.log("sendPush _params: " + JSON.stringify(_params));
 
 	var params = {
 		method : "POST",
@@ -329,14 +336,7 @@ ParseClient.prototype.sendPush = function(_params, callback) {
 		}
 	};
 
-	return this._request(url, params, function(status, data) {
-		Ti.API.log('completed sending push: ' + JSON.stringify(status));
-
-		callback(1, data);
-	}, function(xhr, error) {
-		Ti.API.log('xhr error sending push: ' + JSON.stringify(error));
-		callback(0, error);
-	});
+	return this._request(url, params);
 };
 
 /**
@@ -400,7 +400,7 @@ ParseClient.prototype._request = function(url, params, callback) {
 	});
 
 	xhr.setTimeout(params.timeout);
-	OS_ANDROID ? xhr.autoEncodeUrl = false : xhr.autoEncodeUrl = true;
+	OS_ANDROID ? xhr.autoEncodeUrl = true : xhr.autoEncodeUrl = true;
 
 	xhr.onerror = function(e) {
 		Ti.API.error("error: " + JSON.stringify(e));
@@ -425,7 +425,7 @@ ParseClient.prototype._request = function(url, params, callback) {
 
 	//when urlparams has "where" encodeData function not working properly. Below if statement code will make this query call.
 	if (params.urlparams && params.urlparams.where) {
-        params.url = params.url + "?" + "where=" + JSON.stringify(params.urlparams.where);
+		params.url = params.url + "?" + "where=" + JSON.stringify(params.urlparams.where);
 	} else {
 		params.url = encodeData(params.urlparams, params.url);
 	}
