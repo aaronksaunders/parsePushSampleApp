@@ -5,7 +5,7 @@
     <version>1.0</version>
     <publisher>aaronksaunders</publisher>
     <url>http://sampleParsePush</url>
-    <description/>
+    <description>undefined</description>
     <copyright>2015 by aaronksaunders</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
@@ -51,9 +51,9 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-    <module platform="android">ti.cloudpush</module>
-    <module platform="android" version="0.6">eu.rebelcorp.parse</module>
-  </modules>
+        <module platform="android">ti.cloudpush</module>
+        <module platform="android" version="0.6">eu.rebelcorp.parse</module>
+    </modules>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
