@@ -1,3 +1,5 @@
+[![Book session on Codementor](https://cdn.codementor.io/badges/book_session_github.svg)](https://www.codementor.io/aaronksaunders)
+
 Sample Appcelerator IOS/Android Parse Push Mobile Project
 --
 
